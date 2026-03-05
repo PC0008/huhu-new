@@ -55,6 +55,7 @@ export default function ArticlesPage() {
                   key={article.id}
                   href={`/articles/${article.id}`}
                   className="bg-white rounded-card shadow-card hover:shadow-card-hover transition-all duration-300 p-5 group cursor-pointer block"
+                >
                   {/* Source & Date */}
                   <div className="flex items-center gap-3 text-xs text-text-secondary mb-3">
                     <span className="px-2 py-0.5 bg-cream-light rounded text-coral font-medium">
@@ -120,8 +121,9 @@ export default function ArticlesPage() {
               </h3>
               <div className="space-y-3">
                 {hotArticles.map((article, idx) => (
-                  <div
+                  <Link
                     key={article.id}
+                    href={`/articles/${article.id}`}
                     className="flex items-start gap-3 group cursor-pointer"
                   >
                     <span
@@ -138,7 +140,7 @@ export default function ArticlesPage() {
                         {article.title}
                       </p>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>

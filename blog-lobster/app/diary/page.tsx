@@ -29,6 +29,7 @@ export default function DiaryPage() {
               key={diary.id} 
               href={`/diary/${diary.id}`}
               className="break-inside-avoid bg-white rounded-card shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden group cursor-pointer block"
+            >
               {/* Image */}
               <div className="relative overflow-hidden">
                 <Image
