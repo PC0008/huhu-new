@@ -46,13 +46,12 @@ export default function HomePage() {
         {/* Hero Image */}
         <div className="max-w-3xl mx-auto mt-12 px-4">
           <div className="relative rounded-card overflow-hidden shadow-card-hover">
-            <Image
-              src="https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?w=1200&h=600&fit=crop"
-              alt="镇山虎养成日记"
+            <img
+              src="/hero-lobster-cat.png"
+              alt="龙虾猫工作中"
               width={1200}
               height={600}
               className="w-full h-auto object-cover"
-              priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
             <div className="absolute bottom-4 left-4 right-4 text-white">
