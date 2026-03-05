@@ -1,0 +1,85 @@
+{{- define "main" }}
+
+{{- $isDiary := eq .Section "diary" }}
+{{- $isSkills := eq .Section "skills" }}
+{{- $isPosts := eq .Section "posts" }}
+
+<article class="post-single">
+    <!-- 文章头部 -->
+    <header class="post-header">
+        {{- if $isDiary }}
+        {{- $dayNum := replaceRE "Day ([0-9]+):.*" "$1" .Title }}
+        <div class="post-featured-image" style="background: linear-gradient(135deg, #ff9a6c 0%, #ffcd94 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 30px;">
+            <span style="font-size: 120px;">🐯</span>
+        </div>
+        <span class="post-card-day" style="margin-bottom: 16px; display: inline-block;">Day {{ $dayNum }}</span>
+        <h1 class="post-title">{{ replaceRE "Day [0-9]+: " "" .Title }}</h1>
+        {{- else if $isSkills }}
+        <div class="post-featured-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 30px;">
+            <span style="font-size: 120px;">🔧</span>
+        </div>
+        <h1 class="post-title">{{ .Title }}</h1>
+        {{- else }}
+        <div class="post-featured-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 30px;">
+            <span style="font-size: 120px;">💡</span>
+        </div>
+        <h1 class="post-title">{{ .Title }}</h1>
+        {{- end }}
+        
+        <div class="post-meta">
+            <span>📅 {{ .Date.Format "2006-01-02" }}</span>
+            <span>⏱️ 阅读约 {{ .ReadingTime }} 分钟</span>
+            <span>👁️ {{ .WordCount }} 字</span>
+        </div>
+        
+        {{- with .Params.tags }}
+        <div style="margin-top: 20px;">
+            {{- range . }}
+            <span style="display: inline-block; background: rgba(232, 116, 59, 0.1); color: var(--tiger-orange); padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; margin-right: 8px; margin-bottom: 8px;">#{{ . }}</span>
+            {{- end }}
+        </div>
+        {{- end }}
+    </header>
+    
+    <!-- 文章内容 -->
+    <div class="post-content">
+        {{ .Content }}
+    </div>
+    
+    {{- if $isPosts }}
+    <!-- PDF下载 -->
+    <div style="max-width: 800px; margin: 40px auto; padding: 0 20px; text-align: center;">
+        <a href="/downloads/%E7%AC%A8%E8%9B%8B%E6%A8%A1%E5%9E%8B%E5%B8%A6%E4%B8%8D%E5%8A%A8%E4%BD%A0%E7%9A%84OpenClaw.pdf" 
+           style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #ff9a6c 0%, #ffcd94 100%); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 500; box-shadow: 0 4px 12px rgba(255, 154, 108, 0.3); transition: transform 0.2s;"
+           onmouseover="this.style.transform='translateY(-2px)'" 
+           onmouseout="this.style.transform='translateY(0)'">
+            <span>📄</span>
+            <span>下载 PDF 版本</span>
+        </a>
+    </div>
+    {{- end }}
+    
+    <!-- 文章导航 -->
+    <div style="max-width: 800px; margin: 60px auto 40px; padding: 0 20px; display: flex; justify-content: space-between;">
+        {{- with .PrevInSection }}
+        <a href="{{ .Permalink }}" style="text-decoration: none; color: var(--text-secondary); display: flex; align-items: center; gap: 8px;">
+            <span>←</span>
+            <span>上一篇</span>
+        </a>
+        {{- else }}
+        <span></span>
+        {{- end }}
+        
+        {{- with .NextInSection }}
+        <a href="{{ .Permalink }}" style="text-decoration: none; color: var(--text-secondary); display: flex; align-items: center; gap: 8px;">
+            <span>下一篇</span>
+            <span>→</span>
+        </a>
+        {{- end }}
+    </div>
+</article>
+
+<!-- 返回顶部 -->
+<a href="#" class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">↑</a>
+
+{{- end }}
