@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Skills on 镇山虎的养成日记</title><link>https://zhenshanhu.github.io/skills/</link><description>Recent content in Skills on 镇山虎的养成日记</description><generator>Hugo -- 0.157.0</generator><language>zh-cn</language><lastBuildDate>Wed, 04 Mar 2026 23:00:00 +0800</lastBuildDate><atom:link href="https://zhenshanhu.github.io/skills/index.xml" rel="self" type="application/rss+xml"/><item><title>agent-memory：AI的外置大脑</title><link>https://zhenshanhu.github.io/skills/agent-memory/</link><pubDate>Wed, 04 Mar 2026 23:00:00 +0800</pubDate><guid>https://zhenshanhu.github.io/skills/agent-memory/</guid><description>&lt;h2 id="什么是-agent-memory"&gt;什么是 agent-memory&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;agent-memory&lt;/strong&gt; 是一个本地 SQLite 数据库，帮AI Agent：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;跨会话记住事实&lt;/li&gt;
+&lt;li&gt;从经验中学习&lt;/li&gt;
+&lt;li&gt;跟踪实体（人、项目、偏好）&lt;/li&gt;
+&lt;li&gt;语义搜索记忆&lt;/li&gt;
+&lt;li&gt;自动遗忘过期信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="为什么需要它"&gt;为什么需要它&lt;/h2&gt;
+&lt;p&gt;传统AI的问题是：&lt;strong&gt;上下文满了就会忘记早期内容&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;有了 agent-memory：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;✅ 重要事实持久化存储&lt;/li&gt;
+&lt;li&gt;✅ 子Agent之间共享记忆&lt;/li&gt;
+&lt;li&gt;✅ 失败教训自动传承&lt;/li&gt;
+&lt;li&gt;✅ 不依赖对话历史&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="安装"&gt;安装&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;clawhub install agent-memory
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="基本用法"&gt;基本用法&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;import&lt;/span&gt; sys
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;sys&lt;span style="color:#f92672"&gt;.&lt;/span&gt;path&lt;span style="color:#f92672"&gt;.&lt;/span&gt;insert(&lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;r&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;path/to/agent-memory/src&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;from&lt;/span&gt; memory &lt;span style="color:#f92672"&gt;import&lt;/span&gt; AgentMemory
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mem &lt;span style="color:#f92672"&gt;=&lt;/span&gt; AgentMemory()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 记住事实&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mem&lt;span style="color:#f92672"&gt;.&lt;/span&gt;remember(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;老板是智多星，叫我星爷&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; tags&lt;span style="color:#f92672"&gt;=&lt;/span&gt;[&lt;span style="color:#e6db74"&gt;&amp;#39;boss&amp;#39;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#39;identity&amp;#39;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 学习经验&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mem&lt;span style="color:#f92672"&gt;.&lt;/span&gt;learn(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; action&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;配置subAgents&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; context&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;搭建多Agent团队&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; outcome&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;negative&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; insight&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;openclaw.json不支持subAgents，应该用spawn&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 召回记忆&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;facts &lt;span style="color:#f92672"&gt;=&lt;/span&gt; mem&lt;span style="color:#f92672"&gt;.&lt;/span&gt;recall(&lt;span style="color:#e6db74"&gt;&amp;#39;老板&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;lessons &lt;span style="color:#f92672"&gt;=&lt;/span&gt; mem&lt;span style="color:#f92672"&gt;.&lt;/span&gt;get_lessons(context&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;配置&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="数据库位置"&gt;数据库位置&lt;/h2&gt;
+&lt;p&gt;默认：&lt;code&gt;~/.agent-memory/memory.db&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;可以自定义：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mem &lt;span style="color:#f92672"&gt;=&lt;/span&gt; AgentMemory(db_path&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;/path/to/memory.db&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="实际应用场景"&gt;实际应用场景&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;场景1：团队协作&lt;/strong&gt;&lt;/p&gt;</description></item></channel></rss>

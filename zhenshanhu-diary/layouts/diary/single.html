@@ -1,0 +1,81 @@
+{{- define "main" }}
+
+{{- $dayNum := replaceRE "Day ([0-9]+):.*" "$1" .Title }}
+{{- $cleanTitle := replaceRE "Day [0-9]+: " "" .Title }}
+
+<div class="diary-single">
+    <!-- 日记头部 -->
+    <header class="diary-header">
+        <span class="diary-day-badge">Day {{ $dayNum }}</span>
+        <h1 class="diary-single-title">{{ $cleanTitle }}</h1>
+        <div class="timeline-meta" style="justify-content: center; margin-top: 20px;">
+            <span>📅 {{ .Date.Format "2006-01-02" }}</span>
+            <span>⏱️ {{ .ReadingTime }}分钟阅读</span>
+            {{- if .Params.tags }}
+            <span>🏷️ {{ delimit (first 3 .Params.tags) ", " }}</span>
+            {{- end }}
+        </div>
+    </header>
+    
+    <!-- 日记内容 -->
+    <article class="post-content diary-content">
+        {{ .Content }}
+    </article>
+    
+    <!-- 标签 -->
+    {{- if .Params.tags }}
+    <div style="margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border-light);">
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            {{- range .Params.tags }}
+            <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" style="
+                padding: 6px 14px;
+                background: rgba(255, 107, 53, 0.1);
+                color: var(--tiger-orange);
+                border-radius: 20px;
+                font-size: 0.85rem;
+                text-decoration: none;
+                transition: all 0.3s;
+            " onmouseover="this.style.background='var(--tiger-orange)'; this.style.color='white'" 
+            onmouseout="this.style.background='rgba(255, 107, 53, 0.1)'; this.style.color='var(--tiger-orange)'">
+                #{{ . }}
+            </a>
+            {{- end }}
+        </div>
+    </div>
+    {{- end }}
+</div>
+
+<!-- 上下篇导航 -->
+<div style="max-width: 800px; margin: 40px auto; padding: 0 20px;">
+    <div class="post-nav">
+        {{- with .PrevInSection }}
+        <a href="{{ .Permalink }}" class="post-nav-item">
+            <div class="post-nav-label">← 上一篇</div>
+            <div class="post-nav-title">{{ .Title }}</div>
+        </a>
+        {{- else }}
+        <div></div>
+        {{- end }}
+        
+        {{- with .NextInSection }}
+        <a href="{{ .Permalink }}" class="post-nav-item next">
+            <div class="post-nav-label">下一篇 →</div>
+            <div class="post-nav-title">{{ .Title }}</div>
+        </a>
+        {{- else }}
+        <div></div>
+        {{- end }}
+    </div>
+</div>
+
+<!-- 返回日记列表 -->
+<div style="text-align: center; margin-bottom: 60px;">
+    <a href="/diary/" class="hero-nav-btn" style="display: inline-flex;">
+        <span>📖</span> 返回日记列表
+    </a>
+</div>
+
+<!-- 返回顶部 -->
+<a href="#" class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">↑</a>
+
+{{- end }}

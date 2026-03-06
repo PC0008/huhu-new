@@ -1,0 +1,110 @@
+{{- define "main" }}
+
+<!-- 页面头部 -->
+<div class="skills-header">
+    <h1 class="page-title">🛠️ 技能工具箱</h1>
+    <p class="page-desc" style="margin-bottom: 32px;">
+        好用的工具、技能和方法，都是踩过坑后总结出来的实战经验
+    </p>
+    
+    <!-- 搜索框 -->
+    <div class="skills-search">
+        <input type="text" id="skillSearch" placeholder="搜索技能..." onkeyup="filterSkills()">
+    </div>
+    
+    <!-- 分类标签云 -->
+    <div class="category-cloud">
+        <button class="category-tag active" onclick="filterByCategory('all')">全部</button>
+        <button class="category-tag" onclick="filterByCategory('开发工具')">开发工具</button>
+        <button class="category-tag" onclick="filterByCategory('AI工具')">AI工具</button>
+        <button class="category-tag" onclick="filterByCategory('自动化')">自动化</button>
+        <button class="category-tag" onclick="filterByCategory('效率')">效率</button>
+        <button class="category-tag" onclick="filterByCategory('学习')">学习</button>
+    </div>
+</div>
+
+<!-- Skills 列表 -->
+<div class="skills-list" id="skillsList">
+    {{- range .Pages }}
+    <a href="{{ .Permalink }}" class="skill-item" data-category="{{ range .Params.categories }}{{ . }} {{ end }}" data-title="{{ .Title }}" data-summary="{{ .Summary }}">
+        <div class="skill-icon">
+            {{- if strings.Contains .Title "memory" }}🧠
+            {{- else if strings.Contains .Title "aria2" }}⬇️
+            {{- else if strings.Contains .Title "hugo" }}🌐
+            {{- else if strings.Contains .Title "MCP" }}📱
+            {{- else if strings.Contains .Title "git" }}🌿
+            {{- else if strings.Contains .Title "docker" }}🐳
+            {{- else if strings.Contains .Title "python" }}🐍
+            {{- else if strings.Contains .Title "claw" }}🦞
+            {{- else if strings.Contains .Title "agent" }}🤖
+            {{- else if strings.Contains .Title "vercel" }}▲
+            {{- else }}🔧
+            {{- end }}
+        </div>
+        <div class="skill-info">
+            <h3 class="skill-title">{{ .Title }}</h3>
+            <div class="skill-tags">
+                {{ range .Params.tags | first 3 }}
+                <span class="skill-tag">{{ . }}</span>
+                {{ end }}
+                {{ range .Params.categories | first 1 }}
+                <span class="skill-tag" style="background: rgba(39, 174, 96, 0.1); color: var(--accent-green);">{{ . }}</span>
+                {{ end }}
+            </div>
+            <p class="skill-summary">{{ .Summary | truncate 100 }}</p>
+        </div>
+    </a>
+    {{- end }}
+</div>
+
+<!-- 返回顶部 -->
+<a href="#" class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">↑</a>
+
+<script>
+// 搜索功能
+function filterSkills() {
+    const input = document.getElementById('skillSearch');
+    const filter = input.value.toLowerCase();
+    const items = document.querySelectorAll('.skill-item');
+    
+    items.forEach(item => {
+        const title = item.getAttribute('data-title').toLowerCase();
+        const summary = item.getAttribute('data-summary').toLowerCase();
+        
+        if (title.includes(filter) || summary.includes(filter)) {
+            item.style.display = 'flex';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+// 分类筛选
+function filterByCategory(category) {
+    // 更新按钮状态
+    const buttons = document.querySelectorAll('.category-tag');
+    buttons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.textContent.includes(category === 'all' ? '全部' : category)) {
+            btn.classList.add('active');
+        }
+    });
+    
+    // 筛选列表
+    const items = document.querySelectorAll('.skill-item');
+    items.forEach(item => {
+        if (category === 'all') {
+            item.style.display = 'flex';
+        } else {
+            const categories = item.getAttribute('data-category');
+            if (categories && categories.includes(category)) {
+                item.style.display = 'flex';
+            } else {
+                item.style.display = 'none';
+            }
+        }
+    });
+}
+</script>
+
+{{- end }}

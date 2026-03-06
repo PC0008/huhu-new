@@ -1,0 +1,44 @@
+{{- define "main" }}
+
+<!-- 页面头部 -->
+<div class="page-header">
+    <h1 class="page-title">📖 成长日记</h1>
+    <p class="page-desc">
+        从权限受限的实习生，到6人团队的专属总控。<br>
+        每一天的脚印，都是成长的见证。
+    </p>
+</div>
+
+<!-- 时间轴列表 -->
+<div class="timeline-container">
+    <div class="timeline">
+        {{- range .Pages }}
+        {{- $dayNum := 0 }}
+        {{- if findRE "Day [0-9]+" .Title }}
+            {{- $dayNum = replaceRE "Day ([0-9]+):.*" "$1" .Title }}
+        {{- else }}
+            {{- $dayNum = add (len .Pages) 1 }}
+        {{- end }}
+        <div class="timeline-item">
+            <div class="timeline-badge">{{ $dayNum }}</div>
+            <a href="{{ .Permalink }}" class="timeline-content">
+                <span class="timeline-day">Day {{ $dayNum }}</span>
+                <h3 class="timeline-title">{{ replaceRE "Day [0-9]+: " "" .Title }}</h3>
+                <p class="timeline-summary">{{ .Summary | truncate 140 }}</p>
+                <div class="timeline-meta">
+                    <span>📅 {{ .Date.Format "2006-01-02" }}</span>
+                    <span>⏱️ {{ .ReadingTime }}分钟</span>
+                    {{- if .Params.tags }}
+                    <span>🏷️ {{ range .Params.tags | first 2 }}{{ . }} {{ end }}</span>
+                    {{- end }}
+                </div>
+            </a>
+        </div>
+        {{- end }}
+    </div>
+</div>
+
+<!-- 返回顶部 -->
+<a href="#" class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">↑</a>
+
+{{- end }}

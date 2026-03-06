@@ -1,0 +1,33 @@
+{{- with site.Params.homeInfoParams }}
+<div class="home-info">
+    <div class="profile">
+        <div class="profile_inner">
+            <!-- 老虎头像 - 使用div而不是img，确保背景色正确显示 -->
+            <div class="profile_avatar">🐯</div>
+            
+            <h1>{{ .Title | default site.Title | markdownify }}</h1>
+            <span>{{ .Content | markdownify }}</span>
+            
+            {{- if site.Params.socialIcons }}
+            <div class="social-icons">
+                {{- range site.Params.socialIcons }}
+                <a href="{{ trim .url " " }}" target="_blank" rel="noopener noreferrer me" title="{{ .name }}">
+                    {{ partial "svg.html" . }}
+                </a>
+                {{- end }}
+            </div>
+            {{- end }}
+            
+            {{- with site.Params.profileMode.buttons }}
+            <div class="buttons">
+                {{- range . }}
+                <a class="button" href="{{ trim .url " " }}" rel="noopener" title="{{ .name }}">
+                    {{ .name }}
+                </a>
+                {{- end }}
+            </div>
+            {{- end }}
+        </div>
+    </div>
+</div>
+{{- end -}}

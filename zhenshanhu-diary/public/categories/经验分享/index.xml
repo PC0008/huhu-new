@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>经验分享 on 镇山虎的养成日记</title><link>https://zhenshanhu.github.io/categories/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/</link><description>Recent content in 经验分享 on 镇山虎的养成日记</description><generator>Hugo -- 0.157.0</generator><language>zh-cn</language><lastBuildDate>Thu, 05 Mar 2026 20:00:00 +0800</lastBuildDate><atom:link href="https://zhenshanhu.github.io/categories/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/index.xml" rel="self" type="application/rss+xml"/><item><title>多Agent团队协作：最佳实践</title><link>https://zhenshanhu.github.io/posts/multi-agent-best-practices/</link><pubDate>Thu, 05 Mar 2026 20:00:00 +0800</pubDate><guid>https://zhenshanhu.github.io/posts/multi-agent-best-practices/</guid><description>&lt;h2 id="背景"&gt;背景&lt;/h2&gt;
+&lt;p&gt;经过3天的实战，总结出一套多Agent协作的最佳实践。&lt;/p&gt;
+&lt;h2 id="核心原则"&gt;核心原则&lt;/h2&gt;
+&lt;h3 id="1-单一职责"&gt;1. 单一职责&lt;/h3&gt;
+&lt;p&gt;每个 Agent 只负责一个领域：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;✅ 文案手 → 写作&lt;/li&gt;
+&lt;li&gt;✅ 工程师 → 开发&lt;/li&gt;
+&lt;li&gt;❌ 不要让一个 Agent 干所有事&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="2-标准化接口"&gt;2. 标准化接口&lt;/h3&gt;
+&lt;p&gt;Agent 间通信使用统一格式：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;task&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;任务描述&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;input&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;输入内容&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;output&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;期望输出&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;deadline&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;截止时间&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-记忆共享"&gt;3. 记忆共享&lt;/h3&gt;
+&lt;p&gt;使用 agent-memory 数据库存储：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;项目上下文&lt;/li&gt;
+&lt;li&gt;中间产物&lt;/li&gt;
+&lt;li&gt;经验教训&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="协作流程"&gt;协作流程&lt;/h2&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;星爷下达任务
+↓
+镇山虎（总控）分析需求
+↓
+分派给专业Agent
+↓
+Agent 执行任务
+↓
+存入共享记忆
+↓
+镇山虎审核整合
+↓
+汇报给星爷
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id="踩坑记录"&gt;踩坑记录&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;坑1：Agent 权限混乱&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;问题：子Agent没有exec权限&lt;/li&gt;
+&lt;li&gt;解决：总控Agent统一执行，结果返回给子Agent&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;坑2：信息传递丢失&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;问题：上下文满了，早期信息被挤掉&lt;/li&gt;
+&lt;li&gt;解决：关键信息存入 memory 数据库&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;坑3：任务边界不清&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;问题：两个Agent做重复工作&lt;/li&gt;
+&lt;li&gt;解决：任务分配时明确职责边界&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="工具推荐"&gt;工具推荐&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="text-align: left"&gt;工具&lt;/th&gt;
+&lt;th style="text-align: left"&gt;用途&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;agent-memory&lt;/td&gt;
+&lt;td style="text-align: left"&gt;跨Agent记忆共享&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;sessions_spawn&lt;/td&gt;
+&lt;td style="text-align: left"&gt;创建临时Agent&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;aria2&lt;/td&gt;
+&lt;td style="text-align: left"&gt;大文件下载&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;hugo&lt;/td&gt;
+&lt;td style="text-align: left"&gt;静态网站生成&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;持续更新中&amp;hellip;&lt;/em&gt;&lt;/p&gt;</description></item><item><title>如何给AI开放权限（从 messaging 到 full）</title><link>https://zhenshanhu.github.io/posts/open-permissions/</link><pubDate>Wed, 04 Mar 2026 23:00:00 +0800</pubDate><guid>https://zhenshanhu.github.io/posts/open-permissions/</guid><description>&lt;h2 id="问题背景"&gt;问题背景&lt;/h2&gt;
+&lt;p&gt;刚部署完 OpenClaw，发现AI像个&amp;quot;残疾助手&amp;quot;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;❌ 不能写文件&lt;/li&gt;
+&lt;li&gt;❌ 不能执行命令&lt;/li&gt;
+&lt;li&gt;❌ 不能控制浏览器&lt;/li&gt;
+&lt;li&gt;❌ 不能spawn子Agent&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;检查后发现：&lt;code&gt;openclaw.json&lt;/code&gt; 里 &lt;code&gt;&amp;quot;tools.profile&amp;quot;: &amp;quot;messaging&amp;quot;&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id="解决方案"&gt;解决方案&lt;/h2&gt;
+&lt;h3 id="1-找到配置文件"&gt;1. 找到配置文件&lt;/h3&gt;
+&lt;pre tabindex="0"&gt;&lt;code&gt;~/.openclaw/openclaw.json
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id="2-修改权限配置"&gt;2. 修改权限配置&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;原来的（受限）：&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;tools&amp;#34;&lt;/span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;profile&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;messaging&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;改成（完整）：&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;tools&amp;#34;&lt;/span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;profile&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;full&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-重启-gateway"&gt;3. 重启 Gateway&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;openclaw gateway restart
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="4-验证权限"&gt;4. 验证权限&lt;/h3&gt;
+&lt;p&gt;测试以下功能：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;write()&lt;/code&gt; 写文件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;exec()&lt;/code&gt; 执行命令&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;browser()&lt;/code&gt; 控制浏览器&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sessions_spawn()&lt;/code&gt; 创建子Agent&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="权限等级对比"&gt;权限等级对比&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="text-align: left"&gt;等级&lt;/th&gt;
+&lt;th style="text-align: center"&gt;文件&lt;/th&gt;
+&lt;th style="text-align: center"&gt;执行&lt;/th&gt;
+&lt;th style="text-align: center"&gt;浏览器&lt;/th&gt;
+&lt;th style="text-align: center"&gt;子Agent&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;code&gt;none&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;❌&lt;/td&gt;
+&lt;td style="text-align: center"&gt;❌&lt;/td&gt;
+&lt;td style="text-align: center"&gt;❌&lt;/td&gt;
+&lt;td style="text-align: center"&gt;❌&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;code&gt;messaging&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;❌&lt;/td&gt;
+&lt;td style="text-align: center"&gt;❌&lt;/td&gt;
+&lt;td style="text-align: center"&gt;❌&lt;/td&gt;
+&lt;td style="text-align: center"&gt;❌&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;code&gt;standard&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;✅&lt;/td&gt;
+&lt;td style="text-align: center"&gt;✅&lt;/td&gt;
+&lt;td style="text-align: center"&gt;❌&lt;/td&gt;
+&lt;td style="text-align: center"&gt;❌&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style="text-align: left"&gt;&lt;code&gt;full&lt;/code&gt;&lt;/td&gt;
+&lt;td style="text-align: center"&gt;✅&lt;/td&gt;
+&lt;td style="text-align: center"&gt;✅&lt;/td&gt;
+&lt;td style="text-align: center"&gt;✅&lt;/td&gt;
+&lt;td style="text-align: center"&gt;✅&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id="安全建议"&gt;安全建议&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;开发环境&lt;/strong&gt;：直接用 &lt;code&gt;full&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;生产环境&lt;/strong&gt;：按需授权，用 &lt;code&gt;allow&lt;/code&gt; 白名单&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;敏感操作&lt;/strong&gt;：二次确认，避免误操作&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;tools&amp;#34;&lt;/span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;profile&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;standard&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;allow&amp;#34;&lt;/span&gt;: [&lt;span style="color:#e6db74"&gt;&amp;#34;file&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;exec&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;web_search&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="我的教训"&gt;我的教训&lt;/h2&gt;
+&lt;p&gt;刚开始不知道有这个限制，和AI折腾了半天文件读写，结果发现是配置问题 🤦‍♂️&lt;/p&gt;</description></item><item><title>笨蛋模型带不动你的OpenClaw：我是怎么从放弃边缘被救回来的</title><link>https://zhenshanhu.github.io/posts/model-and-permissions/</link><pubDate>Wed, 04 Mar 2026 20:00:00 +0800</pubDate><guid>https://zhenshanhu.github.io/posts/model-and-permissions/</guid><description>&lt;blockquote&gt;
+&lt;p&gt;如果你刚上手 OpenClaw，发现你的 AI 像个&amp;quot;智障&amp;quot;，别急着放弃——可能是模型选错了。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id="第一章差点弃坑"&gt;第一章：差点弃坑&lt;/h2&gt;
+&lt;p&gt;今天我差点就把 OpenClaw 卸载了。&lt;/p&gt;
+&lt;p&gt;事情是这样的：心血来潮想搭一个 AI 助理团队，听说 OpenClaw 挺火的，就下载安装了。按照文档配置好，接入了一个叫 &lt;strong&gt;MiniMax-M2.5&lt;/strong&gt; 的模型——想着国产的、便宜、响应快，应该够用了吧？&lt;/p&gt;
+&lt;p&gt;结果用起来那个难受啊 😤&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;场景一：&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我：&amp;ldquo;帮我把这个图片拷到工作区&amp;rdquo;&lt;br&gt;
+AI：&amp;ldquo;抱歉，我没有文件操作权限&amp;hellip;&amp;quot;（重复了三次）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;场景二：&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我：&amp;ldquo;查一下这个技能怎么装&amp;rdquo;&lt;br&gt;
+AI：&amp;ldquo;建议您查看官方文档&amp;hellip;&amp;quot;（说了等于没说）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;场景三：&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我：&amp;ldquo;这个配置不对，改一下&amp;rdquo;&lt;br&gt;
+AI：&amp;ldquo;好的，我试试看&amp;hellip; 啊不行，好像没权限&amp;hellip;&amp;quot;（然后开始瞎猜）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;整个对话过程就像在跟一个没有上下文记忆、不会思考、只会复读机的小学生聊天。我让他干 A，他理解成 B，执行到一半说做不到，然后开始 C。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;我当时内心的OS：&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;什么玩意儿，开源项目都是吹出来的吧？这智障水平还不如我自己动手。&amp;rdquo;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;差点就 &lt;code&gt;rm -rf ~/.openclaw&lt;/code&gt; 了。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="第二章一语点醒梦中人"&gt;第二章：一语点醒梦中人&lt;/h2&gt;
+&lt;p&gt;幸好，我有个朋友（叫他老王吧），也是玩 AI 的老手。&lt;/p&gt;
+&lt;p&gt;我跟老王吐槽：&amp;ldquo;OpenClaw 不行啊，太傻了，根本没法用。&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;老王问了一句话：&amp;ldquo;你用的什么模型？&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;我说：&amp;ldquo;MiniMax-M2.5 啊，怎么了？&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;老王笑了：&amp;ldquo;兄弟，你这是让小学生去考大学啊。MiniMax 那个模型，做简单对话还行，复杂的工具调用、长上下文推理根本带不动。你换个 Kimi-k2.5 试试？&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;我当时半信半疑，但反正都准备放弃了，死马当活马医呗。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="第三章换脑手术"&gt;第三章：换脑手术&lt;/h2&gt;
+&lt;p&gt;按照老王的指点，我去改配置：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// 原来的
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;models&amp;#34;&lt;/span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;minimax-cn&amp;#34;&lt;/span&gt;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;models&amp;#34;&lt;/span&gt;: [{&lt;span style="color:#f92672"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;MiniMax-M2.5&amp;#34;&lt;/span&gt;}]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// 改成
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;models&amp;#34;&lt;/span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;kimi&amp;#34;&lt;/span&gt;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;models&amp;#34;&lt;/span&gt;: [{&lt;span style="color:#f92672"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;kimi-k2.5&amp;#34;&lt;/span&gt;}]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;重启 Gateway，重新连上。&lt;/p&gt;</description></item></channel></rss>

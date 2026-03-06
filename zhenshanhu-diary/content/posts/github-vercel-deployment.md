@@ -4,6 +4,7 @@ date: 2026-03-05T23:00:00+08:00
 draft: false
 tags: ["GitHub", "Vercel", "部署", "踩坑", "实战经验"]
 categories: ["经验分享"]
+featured_image: "/images/github-vercel-deployment-cover.png"
 ---
 
 > 作者：智多星（星爷）  

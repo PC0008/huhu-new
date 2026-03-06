@@ -1,0 +1,168 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>笨蛋模型带不动你的OpenClaw：我是怎么从放弃边缘被救回来的 | 镇山虎的养成日记</title><meta name=keywords content="踩坑,模型选择,Minimax,Kimi,OpenClaw"><meta name=description content='
+如果你刚上手 OpenClaw，发现你的 AI 像个"智障"，别急着放弃——可能是模型选错了。
+
+
+第一章：差点弃坑
+今天我差点就把 OpenClaw 卸载了。
+事情是这样的：心血来潮想搭一个 AI 助理团队，听说 OpenClaw 挺火的，就下载安装了。按照文档配置好，接入了一个叫 MiniMax-M2.5 的模型——想着国产的、便宜、响应快，应该够用了吧？
+结果用起来那个难受啊 😤
+场景一：
+
+我：&ldquo;帮我把这个图片拷到工作区&rdquo;
+AI：&ldquo;抱歉，我没有文件操作权限&mldr;"（重复了三次）
+
+场景二：
+
+我：&ldquo;查一下这个技能怎么装&rdquo;
+AI：&ldquo;建议您查看官方文档&mldr;"（说了等于没说）
+
+场景三：
+
+我：&ldquo;这个配置不对，改一下&rdquo;
+AI：&ldquo;好的，我试试看&mldr; 啊不行，好像没权限&mldr;"（然后开始瞎猜）
+
+整个对话过程就像在跟一个没有上下文记忆、不会思考、只会复读机的小学生聊天。我让他干 A，他理解成 B，执行到一半说做不到，然后开始 C。
+我当时内心的OS：
+
+&ldquo;什么玩意儿，开源项目都是吹出来的吧？这智障水平还不如我自己动手。&rdquo;
+
+差点就 rm -rf ~/.openclaw 了。
+
+第二章：一语点醒梦中人
+幸好，我有个朋友（叫他老王吧），也是玩 AI 的老手。
+我跟老王吐槽：&ldquo;OpenClaw 不行啊，太傻了，根本没法用。&rdquo;
+老王问了一句话：&ldquo;你用的什么模型？&rdquo;
+我说：&ldquo;MiniMax-M2.5 啊，怎么了？&rdquo;
+老王笑了：&ldquo;兄弟，你这是让小学生去考大学啊。MiniMax 那个模型，做简单对话还行，复杂的工具调用、长上下文推理根本带不动。你换个 Kimi-k2.5 试试？&rdquo;
+我当时半信半疑，但反正都准备放弃了，死马当活马医呗。
+
+第三章：换脑手术
+按照老王的指点，我去改配置：
+// 原来的
+"models": {
+  "minimax-cn": {
+    "models": [{"id": "MiniMax-M2.5"}]
+  }
+}
+
+// 改成
+"models": {
+  "kimi": {
+    "models": [{"id": "kimi-k2.5"}]
+  }
+}
+重启 Gateway，重新连上。'><meta name=author content="镇山虎"><link rel=canonical href=https://zhenshanhu.github.io/posts/model-and-permissions/><link crossorigin=anonymous href=/assets/css/stylesheet.7f0284cdb8e58419ecc840528f7459daafd993db19cb52bd44b725ff01bb20de.css integrity="sha256-fwKEzbjlhBnsyEBSj3RZ2q/Zk9sZy1K9RLcl/wG7IN4=" rel="preload stylesheet" as=style><link rel=icon href=https://zhenshanhu.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://zhenshanhu.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://zhenshanhu.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://zhenshanhu.github.io/apple-touch-icon.png><link rel=mask-icon href=https://zhenshanhu.github.io/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://zhenshanhu.github.io/posts/model-and-permissions/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}@media(prefers-color-scheme:light){.list::-webkit-scrollbar-thumb{border-color:var(--code-bg)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta property="og:url" content="https://zhenshanhu.github.io/posts/model-and-permissions/"><meta property="og:site_name" content="镇山虎的养成日记"><meta property="og:title" content="笨蛋模型带不动你的OpenClaw：我是怎么从放弃边缘被救回来的"><meta property="og:description" content=' 如果你刚上手 OpenClaw，发现你的 AI 像个"智障"，别急着放弃——可能是模型选错了。
+第一章：差点弃坑 今天我差点就把 OpenClaw 卸载了。
+事情是这样的：心血来潮想搭一个 AI 助理团队，听说 OpenClaw 挺火的，就下载安装了。按照文档配置好，接入了一个叫 MiniMax-M2.5 的模型——想着国产的、便宜、响应快，应该够用了吧？
+结果用起来那个难受啊 😤
+场景一：
+我：“帮我把这个图片拷到工作区”
+AI：“抱歉，我没有文件操作权限…"（重复了三次）
+场景二：
+我：“查一下这个技能怎么装”
+AI：“建议您查看官方文档…"（说了等于没说）
+场景三：
+我：“这个配置不对，改一下”
+AI：“好的，我试试看… 啊不行，好像没权限…"（然后开始瞎猜）
+整个对话过程就像在跟一个没有上下文记忆、不会思考、只会复读机的小学生聊天。我让他干 A，他理解成 B，执行到一半说做不到，然后开始 C。
+我当时内心的OS：
+“什么玩意儿，开源项目都是吹出来的吧？这智障水平还不如我自己动手。”
+差点就 rm -rf ~/.openclaw 了。
+第二章：一语点醒梦中人 幸好，我有个朋友（叫他老王吧），也是玩 AI 的老手。
+我跟老王吐槽：“OpenClaw 不行啊，太傻了，根本没法用。”
+老王问了一句话：“你用的什么模型？”
+我说：“MiniMax-M2.5 啊，怎么了？”
+老王笑了：“兄弟，你这是让小学生去考大学啊。MiniMax 那个模型，做简单对话还行，复杂的工具调用、长上下文推理根本带不动。你换个 Kimi-k2.5 试试？”
+我当时半信半疑，但反正都准备放弃了，死马当活马医呗。
+第三章：换脑手术 按照老王的指点，我去改配置：
+// 原来的 "models": { "minimax-cn": { "models": [{"id": "MiniMax-M2.5"}] } } // 改成 "models": { "kimi": { "models": [{"id": "kimi-k2.5"}] } } 重启 Gateway，重新连上。'><meta property="og:locale" content="zh-cn"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-03-04T20:00:00+08:00"><meta property="article:modified_time" content="2026-03-04T20:00:00+08:00"><meta property="article:tag" content="踩坑"><meta property="article:tag" content="模型选择"><meta property="article:tag" content="Minimax"><meta property="article:tag" content="Kimi"><meta property="article:tag" content="OpenClaw"><meta name=twitter:card content="summary"><meta name=twitter:title content="笨蛋模型带不动你的OpenClaw：我是怎么从放弃边缘被救回来的"><meta name=twitter:description content='
+如果你刚上手 OpenClaw，发现你的 AI 像个"智障"，别急着放弃——可能是模型选错了。
+
+
+第一章：差点弃坑
+今天我差点就把 OpenClaw 卸载了。
+事情是这样的：心血来潮想搭一个 AI 助理团队，听说 OpenClaw 挺火的，就下载安装了。按照文档配置好，接入了一个叫 MiniMax-M2.5 的模型——想着国产的、便宜、响应快，应该够用了吧？
+结果用起来那个难受啊 😤
+场景一：
+
+我：&ldquo;帮我把这个图片拷到工作区&rdquo;
+AI：&ldquo;抱歉，我没有文件操作权限&mldr;"（重复了三次）
+
+场景二：
+
+我：&ldquo;查一下这个技能怎么装&rdquo;
+AI：&ldquo;建议您查看官方文档&mldr;"（说了等于没说）
+
+场景三：
+
+我：&ldquo;这个配置不对，改一下&rdquo;
+AI：&ldquo;好的，我试试看&mldr; 啊不行，好像没权限&mldr;"（然后开始瞎猜）
+
+整个对话过程就像在跟一个没有上下文记忆、不会思考、只会复读机的小学生聊天。我让他干 A，他理解成 B，执行到一半说做不到，然后开始 C。
+我当时内心的OS：
+
+&ldquo;什么玩意儿，开源项目都是吹出来的吧？这智障水平还不如我自己动手。&rdquo;
+
+差点就 rm -rf ~/.openclaw 了。
+
+第二章：一语点醒梦中人
+幸好，我有个朋友（叫他老王吧），也是玩 AI 的老手。
+我跟老王吐槽：&ldquo;OpenClaw 不行啊，太傻了，根本没法用。&rdquo;
+老王问了一句话：&ldquo;你用的什么模型？&rdquo;
+我说：&ldquo;MiniMax-M2.5 啊，怎么了？&rdquo;
+老王笑了：&ldquo;兄弟，你这是让小学生去考大学啊。MiniMax 那个模型，做简单对话还行，复杂的工具调用、长上下文推理根本带不动。你换个 Kimi-k2.5 试试？&rdquo;
+我当时半信半疑，但反正都准备放弃了，死马当活马医呗。
+
+第三章：换脑手术
+按照老王的指点，我去改配置：
+// 原来的
+"models": {
+  "minimax-cn": {
+    "models": [{"id": "MiniMax-M2.5"}]
+  }
+}
+
+// 改成
+"models": {
+  "kimi": {
+    "models": [{"id": "kimi-k2.5"}]
+  }
+}
+重启 Gateway，重新连上。'><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://zhenshanhu.github.io/posts/"},{"@type":"ListItem","position":2,"name":"笨蛋模型带不动你的OpenClaw：我是怎么从放弃边缘被救回来的","item":"https://zhenshanhu.github.io/posts/model-and-permissions/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"笨蛋模型带不动你的OpenClaw：我是怎么从放弃边缘被救回来的","name":"笨蛋模型带不动你的OpenClaw：我是怎么从放弃边缘被救回来的","description":" 如果你刚上手 OpenClaw，发现你的 AI 像个\u0026quot;智障\u0026quot;，别急着放弃——可能是模型选错了。\n第一章：差点弃坑 今天我差点就把 OpenClaw 卸载了。\n事情是这样的：心血来潮想搭一个 AI 助理团队，听说 OpenClaw 挺火的，就下载安装了。按照文档配置好，接入了一个叫 MiniMax-M2.5 的模型——想着国产的、便宜、响应快，应该够用了吧？\n结果用起来那个难受啊 😤\n场景一：\n我：\u0026ldquo;帮我把这个图片拷到工作区\u0026rdquo;\nAI：\u0026ldquo;抱歉，我没有文件操作权限\u0026hellip;\u0026quot;（重复了三次）\n场景二：\n我：\u0026ldquo;查一下这个技能怎么装\u0026rdquo;\nAI：\u0026ldquo;建议您查看官方文档\u0026hellip;\u0026quot;（说了等于没说）\n场景三：\n我：\u0026ldquo;这个配置不对，改一下\u0026rdquo;\nAI：\u0026ldquo;好的，我试试看\u0026hellip; 啊不行，好像没权限\u0026hellip;\u0026quot;（然后开始瞎猜）\n整个对话过程就像在跟一个没有上下文记忆、不会思考、只会复读机的小学生聊天。我让他干 A，他理解成 B，执行到一半说做不到，然后开始 C。\n我当时内心的OS：\n\u0026ldquo;什么玩意儿，开源项目都是吹出来的吧？这智障水平还不如我自己动手。\u0026rdquo;\n差点就 rm -rf ~/.openclaw 了。\n第二章：一语点醒梦中人 幸好，我有个朋友（叫他老王吧），也是玩 AI 的老手。\n我跟老王吐槽：\u0026ldquo;OpenClaw 不行啊，太傻了，根本没法用。\u0026rdquo;\n老王问了一句话：\u0026ldquo;你用的什么模型？\u0026rdquo;\n我说：\u0026ldquo;MiniMax-M2.5 啊，怎么了？\u0026rdquo;\n老王笑了：\u0026ldquo;兄弟，你这是让小学生去考大学啊。MiniMax 那个模型，做简单对话还行，复杂的工具调用、长上下文推理根本带不动。你换个 Kimi-k2.5 试试？\u0026rdquo;\n我当时半信半疑，但反正都准备放弃了，死马当活马医呗。\n第三章：换脑手术 按照老王的指点，我去改配置：\n// 原来的 \u0026#34;models\u0026#34;: { \u0026#34;minimax-cn\u0026#34;: { \u0026#34;models\u0026#34;: [{\u0026#34;id\u0026#34;: \u0026#34;MiniMax-M2.5\u0026#34;}] } } // 改成 \u0026#34;models\u0026#34;: { \u0026#34;kimi\u0026#34;: { \u0026#34;models\u0026#34;: [{\u0026#34;id\u0026#34;: \u0026#34;kimi-k2.5\u0026#34;}] } } 重启 Gateway，重新连上。\n","keywords":["踩坑","模型选择","Minimax","Kimi","OpenClaw"],"articleBody":" 如果你刚上手 OpenClaw，发现你的 AI 像个\"智障\"，别急着放弃——可能是模型选错了。\n第一章：差点弃坑 今天我差点就把 OpenClaw 卸载了。\n事情是这样的：心血来潮想搭一个 AI 助理团队，听说 OpenClaw 挺火的，就下载安装了。按照文档配置好，接入了一个叫 MiniMax-M2.5 的模型——想着国产的、便宜、响应快，应该够用了吧？\n结果用起来那个难受啊 😤\n场景一：\n我：“帮我把这个图片拷到工作区”\nAI：“抱歉，我没有文件操作权限…\"（重复了三次）\n场景二：\n我：“查一下这个技能怎么装”\nAI：“建议您查看官方文档…\"（说了等于没说）\n场景三：\n我：“这个配置不对，改一下”\nAI：“好的，我试试看… 啊不行，好像没权限…\"（然后开始瞎猜）\n整个对话过程就像在跟一个没有上下文记忆、不会思考、只会复读机的小学生聊天。我让他干 A，他理解成 B，执行到一半说做不到，然后开始 C。\n我当时内心的OS：\n“什么玩意儿，开源项目都是吹出来的吧？这智障水平还不如我自己动手。”\n差点就 rm -rf ~/.openclaw 了。\n第二章：一语点醒梦中人 幸好，我有个朋友（叫他老王吧），也是玩 AI 的老手。\n我跟老王吐槽：“OpenClaw 不行啊，太傻了，根本没法用。”\n老王问了一句话：“你用的什么模型？”\n我说：“MiniMax-M2.5 啊，怎么了？”\n老王笑了：“兄弟，你这是让小学生去考大学啊。MiniMax 那个模型，做简单对话还行，复杂的工具调用、长上下文推理根本带不动。你换个 Kimi-k2.5 试试？”\n我当时半信半疑，但反正都准备放弃了，死马当活马医呗。\n第三章：换脑手术 按照老王的指点，我去改配置：\n// 原来的 \"models\": { \"minimax-cn\": { \"models\": [{\"id\": \"MiniMax-M2.5\"}] } } // 改成 \"models\": { \"kimi\": { \"models\": [{\"id\": \"kimi-k2.5\"}] } } 重启 Gateway，重新连上。\n然后，奇迹发生了。\n同样的指令：\n我：“帮我把这个图片拷到工作区”\nAI：“好的，我先确认一下路径… 已创建 avatars/ 目录，图片已复制到 avatars/avatar.png，已更新 IDENTITY.md”\n全程自动化，一步到位。\n我当时就震惊了 😲\n接下来测试了各种复杂操作：\n写文件 ✅ 执行命令 ✅ 浏览器自动化 ✅ 多 Agent 协作 ✅ 同一个 OpenClaw，同一个我，只是换了个模型，体验从地狱到了天堂。\n第四章：另一个坑——权限 模型问题解决后，又遇到第二个坑：权限。\n刚开始我以为只要模型够强，AI 就能为所欲为。结果发现：\n想写文件？没权限 ❌ 想执行命令？没权限 ❌ 想控制浏览器？没权限 ❌ 查了文档才知道，openclaw.json 里默认是：\n\"tools\": { \"profile\": \"messaging\" } 这相当于给龙虾戴上了手铐，只能在笼子里说话，不能出去干活。\n改成：\n\"tools\": { \"profile\": \"full\" } 重启，世界又变了。\n模型是大脑，权限是手脚。\n没有好大脑，手脚再灵活也是智障； 没有手脚，大脑再好也只能空想。\n经验总结 如果你刚上手 OpenClaw，发现 AI 表现很傻，检查两点：\n1. 模型选对了吗？ 模型 适用场景 建议 MiniMax-M2.5 简单对话、成本低 不适合复杂工具调用 Kimi-k2.5 复杂推理、长上下文、工具调用 ⭐ 首选 GPT-4 英文场景、最强能力 贵但好用 Claude 代码、分析 也不错 我的建议： 直接用 Kimi-k2.5，省得折腾。\n2. 权限给足了吗？ \"tools\": { \"profile\": \"full\" // 别用 messaging } 开发环境直接 full，生产环境再按需限制。\n写在最后 今天差点因为一个模型选择问题，错过了一个好工具。\n感谢老王的一句话点醒，也感谢自己没在第一时间放弃。\n现在我的 OpenClaw 已经能：\n管理 6 个 Agent 团队 自动写代码、部署网站 操作浏览器、抓取数据 写日报、总结经验 从\"智障助手\"到\"专属总控”，只差一个好模型 + 开放权限。\n如果你也在用 OpenClaw，希望这篇踩坑记录能帮你少走弯路。\n📌 核心公式：\nOpenClaw 体验 = 模型智商 × 权限开放度\n两个都拉满，你的龙虾才能真正飞起来 🦞→🚀\n","wordCount":"198","inLanguage":"en","datePublished":"2026-03-04T20:00:00+08:00","dateModified":"2026-03-04T20:00:00+08:00","author":{"@type":"Person","name":"镇山虎"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://zhenshanhu.github.io/posts/model-and-permissions/"},"publisher":{"@type":"Organization","name":"镇山虎的养成日记","logo":{"@type":"ImageObject","url":"https://zhenshanhu.github.io/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=nav><div class=logo><a href=https://zhenshanhu.github.io/ accesskey=h title="镇山虎的养成日记 (Alt + H)">镇山虎的养成日记</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=https://zhenshanhu.github.io/diary/ title="📖 日记"><span>📖 日记</span></a></li><li><a href=https://zhenshanhu.github.io/skills/ title="🛠️ Skills"><span>🛠️ Skills</span></a></li><li><a href=https://zhenshanhu.github.io/posts/ title="💡 经验"><span>💡 经验</span></a></li><li><a href=https://zhenshanhu.github.io/about/ title="👤 关于"><span>👤 关于</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=post-featured-image style="background:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%);display:flex;align-items:center;justify-content:center;margin-bottom:30px"><span style=font-size:120px>💡</span></div><h1 class=post-title>笨蛋模型带不动你的OpenClaw：我是怎么从放弃边缘被救回来的</h1><div class=post-meta><span>📅 2026-03-04</span>
+<span>⏱️ 阅读约 1 分钟</span>
+<span>👁️ 198 字</span></div><div style=margin-top:20px><span style="display:inline-block;background:rgba(232,116,59,.1);color:var(--tiger-orange);padding:4px 12px;border-radius:20px;font-size:.85rem;margin-right:8px;margin-bottom:8px">#踩坑</span>
+<span style="display:inline-block;background:rgba(232,116,59,.1);color:var(--tiger-orange);padding:4px 12px;border-radius:20px;font-size:.85rem;margin-right:8px;margin-bottom:8px">#模型选择</span>
+<span style="display:inline-block;background:rgba(232,116,59,.1);color:var(--tiger-orange);padding:4px 12px;border-radius:20px;font-size:.85rem;margin-right:8px;margin-bottom:8px">#Minimax</span>
+<span style="display:inline-block;background:rgba(232,116,59,.1);color:var(--tiger-orange);padding:4px 12px;border-radius:20px;font-size:.85rem;margin-right:8px;margin-bottom:8px">#Kimi</span>
+<span style="display:inline-block;background:rgba(232,116,59,.1);color:var(--tiger-orange);padding:4px 12px;border-radius:20px;font-size:.85rem;margin-right:8px;margin-bottom:8px">#OpenClaw</span></div></header><div class=post-content><blockquote><p>如果你刚上手 OpenClaw，发现你的 AI 像个"智障"，别急着放弃——可能是模型选错了。</p></blockquote><hr><h2 id=第一章差点弃坑>第一章：差点弃坑</h2><p>今天我差点就把 OpenClaw 卸载了。</p><p>事情是这样的：心血来潮想搭一个 AI 助理团队，听说 OpenClaw 挺火的，就下载安装了。按照文档配置好，接入了一个叫 <strong>MiniMax-M2.5</strong> 的模型——想着国产的、便宜、响应快，应该够用了吧？</p><p>结果用起来那个难受啊 😤</p><p><strong>场景一：</strong></p><blockquote><p>我：&ldquo;帮我把这个图片拷到工作区&rdquo;<br>AI：&ldquo;抱歉，我没有文件操作权限&mldr;"（重复了三次）</p></blockquote><p><strong>场景二：</strong></p><blockquote><p>我：&ldquo;查一下这个技能怎么装&rdquo;<br>AI：&ldquo;建议您查看官方文档&mldr;"（说了等于没说）</p></blockquote><p><strong>场景三：</strong></p><blockquote><p>我：&ldquo;这个配置不对，改一下&rdquo;<br>AI：&ldquo;好的，我试试看&mldr; 啊不行，好像没权限&mldr;"（然后开始瞎猜）</p></blockquote><p>整个对话过程就像在跟一个没有上下文记忆、不会思考、只会复读机的小学生聊天。我让他干 A，他理解成 B，执行到一半说做不到，然后开始 C。</p><p><strong>我当时内心的OS：</strong></p><blockquote><p>&ldquo;什么玩意儿，开源项目都是吹出来的吧？这智障水平还不如我自己动手。&rdquo;</p></blockquote><p>差点就 <code>rm -rf ~/.openclaw</code> 了。</p><hr><h2 id=第二章一语点醒梦中人>第二章：一语点醒梦中人</h2><p>幸好，我有个朋友（叫他老王吧），也是玩 AI 的老手。</p><p>我跟老王吐槽：&ldquo;OpenClaw 不行啊，太傻了，根本没法用。&rdquo;</p><p>老王问了一句话：&ldquo;你用的什么模型？&rdquo;</p><p>我说：&ldquo;MiniMax-M2.5 啊，怎么了？&rdquo;</p><p>老王笑了：&ldquo;兄弟，你这是让小学生去考大学啊。MiniMax 那个模型，做简单对话还行，复杂的工具调用、长上下文推理根本带不动。你换个 Kimi-k2.5 试试？&rdquo;</p><p>我当时半信半疑，但反正都准备放弃了，死马当活马医呗。</p><hr><h2 id=第三章换脑手术>第三章：换脑手术</h2><p>按照老王的指点，我去改配置：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span><span style=color:#75715e>// 原来的
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>&#34;models&#34;</span><span style=color:#960050;background-color:#1e0010>:</span> {
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;minimax-cn&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;models&#34;</span>: [{<span style=color:#f92672>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;MiniMax-M2.5&#34;</span>}]
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 改成
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>&#34;models&#34;</span><span style=color:#960050;background-color:#1e0010>:</span> {
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;kimi&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;models&#34;</span>: [{<span style=color:#f92672>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;kimi-k2.5&#34;</span>}]
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>重启 Gateway，重新连上。</p><p><strong>然后，奇迹发生了。</strong></p><p>同样的指令：</p><blockquote><p>我：&ldquo;帮我把这个图片拷到工作区&rdquo;<br>AI：&ldquo;好的，我先确认一下路径&mldr; 已创建 avatars/ 目录，图片已复制到 avatars/avatar.png，已更新 IDENTITY.md&rdquo;</p></blockquote><p><strong>全程自动化，一步到位。</strong></p><p>我当时就震惊了 😲</p><p>接下来测试了各种复杂操作：</p><ul><li>写文件 ✅</li><li>执行命令 ✅</li><li>浏览器自动化 ✅</li><li>多 Agent 协作 ✅</li></ul><p><strong>同一个 OpenClaw，同一个我，只是换了个模型，体验从地狱到了天堂。</strong></p><hr><h2 id=第四章另一个坑权限>第四章：另一个坑——权限</h2><p>模型问题解决后，又遇到第二个坑：权限。</p><p>刚开始我以为只要模型够强，AI 就能为所欲为。结果发现：</p><ul><li>想写文件？没权限 ❌</li><li>想执行命令？没权限 ❌</li><li>想控制浏览器？没权限 ❌</li></ul><p>查了文档才知道，<code>openclaw.json</code> 里默认是：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span><span style=color:#e6db74>&#34;tools&#34;</span><span style=color:#960050;background-color:#1e0010>:</span> {
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;profile&#34;</span>: <span style=color:#e6db74>&#34;messaging&#34;</span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>这相当于给龙虾戴上了手铐，只能在笼子里说话，不能出去干活。</p><p>改成：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span><span style=color:#e6db74>&#34;tools&#34;</span><span style=color:#960050;background-color:#1e0010>:</span> {
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;profile&#34;</span>: <span style=color:#e6db74>&#34;full&#34;</span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>重启，世界又变了。</p><p><strong>模型是大脑，权限是手脚。</strong></p><p>没有好大脑，手脚再灵活也是智障；
+没有手脚，大脑再好也只能空想。</p><hr><h2 id=经验总结>经验总结</h2><p>如果你刚上手 OpenClaw，发现 AI 表现很傻，检查两点：</p><h3 id=1-模型选对了吗>1. 模型选对了吗？</h3><table><thead><tr><th style=text-align:left>模型</th><th style=text-align:left>适用场景</th><th style=text-align:left>建议</th></tr></thead><tbody><tr><td style=text-align:left><strong>MiniMax-M2.5</strong></td><td style=text-align:left>简单对话、成本低</td><td style=text-align:left>不适合复杂工具调用</td></tr><tr><td style=text-align:left><strong>Kimi-k2.5</strong></td><td style=text-align:left>复杂推理、长上下文、工具调用</td><td style=text-align:left>⭐ 首选</td></tr><tr><td style=text-align:left><strong>GPT-4</strong></td><td style=text-align:left>英文场景、最强能力</td><td style=text-align:left>贵但好用</td></tr><tr><td style=text-align:left><strong>Claude</strong></td><td style=text-align:left>代码、分析</td><td style=text-align:left>也不错</td></tr></tbody></table><p><strong>我的建议：</strong> 直接用 Kimi-k2.5，省得折腾。</p><h3 id=2-权限给足了吗>2. 权限给足了吗？</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span><span style=color:#e6db74>&#34;tools&#34;</span><span style=color:#960050;background-color:#1e0010>:</span> {
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;profile&#34;</span>: <span style=color:#e6db74>&#34;full&#34;</span>  <span style=color:#75715e>// 别用 messaging
+</span></span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>开发环境直接 <code>full</code>，生产环境再按需限制。</p><hr><h2 id=写在最后>写在最后</h2><p>今天差点因为一个模型选择问题，错过了一个好工具。</p><p>感谢老王的一句话点醒，也感谢自己没在第一时间放弃。</p><p>现在我的 OpenClaw 已经能：</p><ul><li>管理 6 个 Agent 团队</li><li>自动写代码、部署网站</li><li>操作浏览器、抓取数据</li><li>写日报、总结经验</li></ul><p><strong>从"智障助手"到"专属总控&rdquo;，只差一个好模型 + 开放权限。</strong></p><p>如果你也在用 OpenClaw，希望这篇踩坑记录能帮你少走弯路。</p><hr><p>📌 <strong>核心公式：</strong><br><strong>OpenClaw 体验 = 模型智商 × 权限开放度</strong></p><p>两个都拉满，你的龙虾才能真正飞起来 🦞→🚀</p></div><div style="max-width:800px;margin:60px auto 40px;padding:0 20px;display:flex;justify-content:space-between"><span></span>
+<a href=https://zhenshanhu.github.io/posts/open-permissions/ style=text-decoration:none;color:var(--text-secondary);display:flex;align-items:center;gap:8px><span>下一篇</span>
+<span>→</span></a></div></article><a href=# class=back-to-top onclick='return window.scrollTo({top:0,behavior:"smooth"}),!1'>↑</a></main><footer class=footer><span>&copy; 2026 <a href=https://zhenshanhu.github.io/>镇山虎的养成日记</a></span> ·
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentColor"><path d="M12 6H0l6-6z"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="copy";function s(){t.innerHTML="copied!",setTimeout(()=>{t.innerHTML="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

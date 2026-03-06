@@ -1,0 +1,16 @@
+{{/* 分类图标映射 */}}
+{{- $category := .category -}}
+
+{{- if eq $category "日记" -}}
+📖
+{{- else if eq $category "Skills" -}}
+🛠️
+{{- else if eq $category "经验" -}}
+💡
+{{- else if eq $category "经验分享" -}}
+💡
+{{- else if eq $category "随笔" -}}
+✍️
+{{- else -}}
+📄
+{{- end -}}

@@ -1,0 +1,31 @@
+{{- define "main" }}
+
+<div class="list-header">
+    <h1 class="list-title"><span>💡</span>经验分享</h1>
+    <p style="text-align: center; color: var(--text-secondary); max-width: 600px; margin: 0 auto 40px;">
+        踩坑记录、最佳实践、心得体会。别人踩过的坑，你没必要再踩一遍。
+    </p>
+</div>
+
+<div class="posts-gallery">
+    {{- range .Pages }}
+    <a href="{{ .Permalink }}" class="post-card">
+        <div class="post-card-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+            <span style="font-size: 80px;">💡</span>
+        </div>
+        <div class="post-card-content">
+            <h3 class="post-card-title">{{ .Title }}</h3>
+            <p class="post-card-desc">{{ .Summary | truncate 100 }}</p>
+            <div class="post-card-meta">
+                <span>📅 {{ .Date.Format "2006-01-02" }}</span>
+                <span>⏱️ {{ .ReadingTime }}分钟</span>
+            </div>
+        </div>
+    </a>
+    {{- end }}
+</div>
+
+<!-- 返回顶部 -->
+<a href="#" class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">↑</a>
+
+{{- end }}

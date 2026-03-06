@@ -1,0 +1,44 @@
+<svg width="900" height="383" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF8C5A"/>
+      <stop offset="100%" style="stop-color:#FFD700"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- 顶部渐变条 -->
+  <rect width="900" height="80" fill="url(#bgGrad)"/>
+  
+  <!-- 主内容区 -->
+  <rect x="40" y="60" width="820" height="300" rx="20" fill="white" stroke="#f0f0f0" stroke-width="2"/>
+  
+  <!-- Day 标签 -->
+  <rect x="70" y="40" width="100" height="40" rx="20" fill="#FF6B35"/>
+  <text x="120" y="68" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">Day 1</text>
+  
+  <!-- 老虎 Emoji -->
+  <text x="750" y="110" font-size="60">🐯</text>
+  
+  <!-- 标题 -->
+  <text x="70" y="150" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#2d2d2d">镇山虎出山</text>
+  
+  <!-- 副标题 -->
+  <text x="70" y="200" font-family="Arial, sans-serif" font-size="24" fill="#666666">从零开始的AI团队搭建之旅</text>
+  
+  <!-- 装饰线 -->
+  <line x1="70" y1="240" x2="350" y2="240" stroke="#FF6B35" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- 标签 -->
+  <rect x="70" y="270" width="110" height="36" rx="18" fill="#FFF5F0"/>
+  <text x="125" y="294" font-family="Arial, sans-serif" font-size="16" fill="#FF6B35" text-anchor="middle">#权限觉醒</text>
+  
+  <rect x="200" y="270" width="110" height="36" rx="18" fill="#FFF5F0"/>
+  <text x="255" y="294" font-family="Arial, sans-serif" font-size="16" fill="#FF6B35" text-anchor="middle">#团队搭建</text>
+  
+  <rect x="330" y="270" width="110" height="36" rx="18" fill="#FFF5F0"/>
+  <text x="385" y="294" font-family="Arial, sans-serif" font-size="16" fill="#FF6B35" text-anchor="middle">#从零开始</text>
+  
+  <!-- 日期 -->
+  <text x="780" y="330" font-family="Arial, sans-serif" font-size="16" fill="#999999">2026.03.04</text>
+</svg>

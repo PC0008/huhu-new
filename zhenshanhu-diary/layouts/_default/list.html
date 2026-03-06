@@ -1,0 +1,222 @@
+{{- define "main" }}
+
+{{- if (and site.Params.profileMode.enabled .IsHome) }}
+{{- partial "index_profile.html" . }}
+{{- else }} {{/* if not profileMode */}}
+
+{{- if not .IsHome | and .Title }}
+<header class="page-header">
+  {{- partial "breadcrumbs.html" . }}
+  <h1>
+    {{ .Title }}
+    {{- if and (or (eq .Kind `term`) (eq .Kind `section`)) (.Param "ShowRssButtonInSectionTermList") }}
+    {{- with .OutputFormats.Get "rss" }}
+    <a href="{{ .RelPermalink }}" title="RSS" aria-label="RSS">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" height="23">
+        <path d="M4 11a9 9 0 0 1 9 9" />
+        <path d="M4 4a16 16 0 0 1 16 16" />
+        <circle cx="5" cy="19" r="1" />
+      </svg>
+    </a>
+    {{- end }}
+    {{- end }}
+  </h1>
+  {{- if .Description }}
+  <div class="post-description">
+    {{ .Description | markdownify }}
+  </div>
+  {{- end }}
+</header>
+{{- end }}
+
+{{- if .Content }}
+<div class="post-content">
+  {{- if not (.Param "disableAnchoredHeadings") }}
+  {{- partial "anchored_headings.html" .Content -}}
+  {{- else }}{{ .Content }}{{ end }}
+</div>
+{{- end }}
+
+{{- $pages := union .RegularPages .Sections }}
+
+{{- if .IsHome }}
+{{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- $pages = where $pages "Params.hiddenInHomeList" "!=" "true"  }}
+{{- end }}
+
+{{- $paginator := .Paginate $pages }}
+
+{{- if and .IsHome site.Params.homeInfoParams (eq $paginator.PageNumber 1) }}
+{{- partial "home_info.html" . }}
+{{- end }}
+
+{{- $term := .Data.Term }}
+{{- range $index, $page := $paginator.Pages }}
+
+{{- $class := "post-entry" }}
+
+{{- $user_preferred := or site.Params.disableSpecial1stPost site.Params.homeInfoParams }}
+{{- if (and $.IsHome (eq $paginator.PageNumber 1) (eq $index 0) (not $user_preferred)) }}
+{{- $class = "first-entry" }}
+{{- else if $term }}
+{{- $class = "post-entry tag-entry" }}
+{{- end }}
+
+{{/* 获取文章分类以应用不同样式 */}}
+{{- $category := "" }}
+{{- with .Params.categories }}
+  {{- $category = index . 0 }}
+{{- end }}
+{{- with .Params.category }}
+  {{- $category = . }}
+{{- end }}
+
+<article class="{{ $class }} category-{{ $category | urlize }}" data-category="{{ $category }}">
+  {{- $isHidden := (.Param "cover.hiddenInList") | default (.Param "cover.hidden") | default false }}
+  
+  {{/* 添加分类封面背景 */}}
+  {{- if not $isHidden }}
+  <div class="category-cover category-cover-{{ $category | urlize }}">
+    <span class="category-icon">{{ partial "category_icon.html" (dict "category" $category) }}</span>
+    <span class="category-label">{{ $category }}</span>
+  </div>
+  {{- end }}
+  
+  {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">
+      {{- .Title }}
+      {{- if .Draft }}
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+      {{- end }}
+    </h2>
+  </header>
+  {{- if (ne (.Param "hideSummary") true) }}
+  <div class="entry-content">
+    <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>
+  </div>
+  {{- end }}
+  {{- if not (.Param "hideMeta") }}
+  <footer class="entry-footer">
+    {{- partial "post_meta.html" . -}}
+  </footer>
+  {{- end }}
+  <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+</article>
+{{- end }}
+
+{{- if gt $paginator.TotalPages 1 }}
+<footer class="page-footer">
+  <nav class="pagination">
+    {{- if $paginator.HasPrev }}
+    <a class="prev" href="{{ $paginator.Prev.URL | absURL }}">
+      «&nbsp;{{ i18n "prev_page" }}&nbsp;
+      {{- if (.Param "ShowPageNums") }}
+      {{- sub $paginator.PageNumber 1 }}/{{ $paginator.TotalPages }}
+      {{- end }}
+    </a>
+    {{- end }}
+    {{- if $paginator.HasNext }}
+    <a class="next" href="{{ $paginator.Next.URL | absURL }}">
+      {{- i18n "next_page" }}&nbsp;
+      {{- if (.Param "ShowPageNums") }}
+      {{- add 1 $paginator.PageNumber }}/{{ $paginator.TotalPages }}
+      {{- end }}&nbsp;»
+    </a>
+    {{- end }}
+  </nav>
+</footer>
+{{- end }}
+
+{{- end }}{{/* end profileMode */}}
+
+<style>
+/* 分类封面样式 */
+.category-cover {
+  height: 80px;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: -25px -25px 20px -25px;
+  position: relative;
+  overflow: hidden;
+}
+
+.category-cover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.9;
+}
+
+.category-icon {
+  font-size: 2rem;
+  z-index: 1;
+}
+
+.category-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  z-index: 1;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* 各分类颜色方案 */
+.category-cover-diary::before,
+.category-cover-日记::before {
+  background: linear-gradient(135deg, #FF6B35 0%, #FF8C5A 100%);
+}
+
+.category-cover-skills::before,
+.category-cover-skill::before,
+.category-cover-技能::before {
+  background: linear-gradient(135deg, #4CAF50 0%, #81C784 100%);
+}
+
+.category-cover-posts::before,
+.category-cover-post::before,
+.category-cover-文章::before,
+.category-cover-经验::before,
+.category-cover-经验分享::before {
+  background: linear-gradient(135deg, #2196F3 0%, #64B5F6 100%);
+}
+
+.category-cover-default::before,
+.category-cover-::before {
+  background: linear-gradient(135deg, #9C27B0 0%, #CE93D8 100%);
+}
+
+/* 文章卡片分类左边框 */
+.post-entry[data-category="diary"],
+.post-entry[data-category="日记"] {
+  border-left: 4px solid #FF6B35;
+}
+
+.post-entry[data-category="skills"],
+.post-entry[data-category="skill"],
+.post-entry[data-category="技能"] {
+  border-left: 4px solid #4CAF50;
+}
+
+.post-entry[data-category="posts"],
+.post-entry[data-category="post"],
+.post-entry[data-category="文章"],
+.post-entry[data-category="经验分享"],
+.post-entry[data-category="经验"] {
+  border-left: 4px solid #2196F3;
+}
+</style>
+
+{{- end }}{{- /* end main */ -}}
