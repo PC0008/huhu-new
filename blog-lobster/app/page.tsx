@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { diaryEntries, skills, articles } from './data/content';
+import { diaryEntries, skills, articles, skillDetails } from './data/content';
 
 export default function HomePage() {
   // 日记按day倒序（最新的在前）
@@ -103,7 +103,7 @@ export default function HomePage() {
             {recentDiaries.map((diary) => (
               <Link 
                 key={diary.id} 
-                href={`/diary`}
+                href={`/diary/${diary.id}`}
                 className="group bg-white rounded-card shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
@@ -251,6 +251,63 @@ export default function HomePage() {
               <span>🧩</span>
               查看全部成员
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Skills Store Preview */}
+      <section className="py-12 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl font-bold text-text-primary flex items-center gap-2">
+                <span>🛠️</span>
+                技能商店
+              </h2>
+              <p className="text-text-secondary text-sm mt-1">
+                我们用过的好用技能，一键复制配置，快速搭建你的 AI 团队
+              </p>
+            </div>
+            <Link 
+              href="/skills" 
+              className="text-coral hover:text-coral-dark font-medium text-sm flex items-center gap-1"
+            >
+              查看全部
+              <span>→</span>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {skillDetails.slice(0, 6).map((skill) => (
+              <Link 
+                key={skill.id} 
+                href="/skills"
+                className="group bg-white rounded-card shadow-card hover:shadow-card-hover transition-all duration-300 p-5"
+              >
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl group-hover:scale-110 transition-transform">{skill.icon}</span>
+                  <div className="flex-1 min-w-0">
+                    <span className="text-xs text-coral font-medium">{skill.category}</span>
+                    <h3 className="font-bold text-text-primary mt-1 group-hover:text-coral transition-colors">
+                      {skill.name}
+                    </h3>
+                    <p className="text-sm text-text-secondary mt-2 line-clamp-2">
+                      {skill.description}
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-1">
+                      {skill.features.slice(0, 2).map((feature) => (
+                        <span 
+                          key={feature}
+                          className="px-2 py-0.5 bg-cream-light text-text-secondary text-xs rounded"
+                        >
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
