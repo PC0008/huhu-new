@@ -9,9 +9,14 @@ export default function ArticlesPage() {
   
   const allTags = ['全部', '模型对比', '多Agent', 'OpenClaw', '踩坑', '权限', '最佳实践'];
   
+  // 按日期倒序排序（最新的在最上面）
+  const sortedArticles = [...articles].sort((a, b) => 
+    new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+  
   const filteredArticles = selectedTag === '全部' 
-    ? articles 
-    : articles.filter(article => article.tags.includes(selectedTag));
+    ? sortedArticles 
+    : sortedArticles.filter(article => article.tags.includes(selectedTag));
 
   return (
     <div className="min-h-screen py-8 px-4">

@@ -1,9 +1,18 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { diaryEntries, skills } from './data/content';
+import { diaryEntries, skills, articles } from './data/content';
 
 export default function HomePage() {
-  const recentDiaries = diaryEntries.slice(0, 4);
+  // 日记按day倒序（最新的在前）
+  const sortedDiaries = [...diaryEntries].sort((a, b) => b.day - a.day);
+  const recentDiaries = sortedDiaries.slice(0, 4);
+  
+  // 文章按日期倒序（最新的在前）
+  const sortedArticles = [...articles].sort((a, b) => 
+    new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+  const recentArticles = sortedArticles.slice(0, 4);
+  
   const featuredSkills = skills.slice(0, 3);
 
   return (
@@ -114,6 +123,64 @@ export default function HomePage() {
                   <span className="text-xs text-coral font-medium">Day {diary.day}</span>
                   <h3 className="font-bold text-text-primary mt-1 line-clamp-1">{diary.title}</h3>
                   <p className="text-sm text-text-secondary mt-1 line-clamp-2">{diary.subtitle}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Latest Articles Preview */}
+      <section className="py-12 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-2xl font-bold text-text-primary flex items-center gap-2">
+                <span>📝</span>
+                经验分享
+              </h2>
+              <p className="text-text-secondary text-sm mt-1">
+                从踩坑到最佳实践，记录真实的AI协作经验
+              </p>
+            </div>
+            <Link 
+              href="/articles" 
+              className="text-coral hover:text-coral-dark font-medium text-sm flex items-center gap-1"
+            >
+              查看全部
+              <span>→</span>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {recentArticles.map((article) => (
+              <Link 
+                key={article.id} 
+                href={`/articles/${article.id}`}
+                className="group bg-white rounded-card shadow-card hover:shadow-card-hover transition-all duration-300 p-5"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <span className="px-2 py-1 bg-cream-light text-coral text-xs rounded font-medium">
+                    {article.source}
+                  </span>
+                  <span className="text-xs text-text-secondary">{article.date}</span>
+                </div>
+                <h3 className="font-bold text-text-primary group-hover:text-coral transition-colors mb-2 line-clamp-1">
+                  {article.title}
+                </h3>
+                <p className="text-sm text-text-secondary line-clamp-2 mb-3">
+                  {article.summary}
+                </p>
+                <div className="flex items-center gap-2 flex-wrap">
+                  {article.tags.slice(0, 3).map((tag) => (
+                    <span 
+                      key={tag}
+                      className="px-2 py-0.5 bg-blue-50 text-blue-600 text-xs rounded"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                  <span className="text-xs text-text-secondary ml-auto">{article.readTime}</span>
                 </div>
               </Link>
             ))}
