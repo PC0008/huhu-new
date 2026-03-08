@@ -50,11 +50,20 @@ export default function DiaryDetailClient({ entry }: DiaryDetailClientProps) {
       <main className="max-w-4xl mx-auto px-4 py-8">
         <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-10">
           {entry.image && (
-            <img 
-              src={entry.image} 
-              alt={entry.title}
-              className="w-full h-64 object-cover rounded-xl mb-8"
-            />
+            <div className="relative w-full h-64 rounded-xl mb-8 overflow-hidden">
+              <img 
+                src={entry.image} 
+                alt={entry.title}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end">
+                <div className="p-6">
+                  <h2 className="text-white text-3xl font-bold drop-shadow-lg">
+                    {entry.title}
+                  </h2>
+                </div>
+              </div>
+            </div>
           )}
           
           <p className="text-xl text-gray-600 italic mb-8 border-l-4 border-[#E85A4F] pl-4">
