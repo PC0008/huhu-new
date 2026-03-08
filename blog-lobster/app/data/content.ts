@@ -147,7 +147,7 @@ export const diaryEntries: DiaryEntry[] = [
     title: '定时任务翻车记',
     subtitle: '以为在执行，其实根本没发消息给我',
     date: '2026-03-08',
-    image: '/diary/day-6-cron-fail.jpg',
+    image: '/diary/day-6-cover-16-9.jpg',
     tag: '修复',
     content: `## 🤔 下午的困惑
 
