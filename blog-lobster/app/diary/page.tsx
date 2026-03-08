@@ -3,6 +3,11 @@ import Link from 'next/link';
 import { diaryEntries } from '../data/content';
 
 export default function DiaryPage() {
+  // 按日期倒序排列（最新的在最上面）
+  const sortedDiaryEntries = [...diaryEntries].sort((a, b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+
   return (
     <div className="min-h-screen py-8 px-4">
       <div className="max-w-5xl mx-auto">
@@ -24,7 +29,7 @@ export default function DiaryPage() {
 
         {/* Waterfall Diary Grid */}
         <div className="columns-1 sm:columns-2 gap-4 space-y-4">
-          {diaryEntries.map((diary) => (
+          {sortedDiaryEntries.map((diary) => (
             <Link 
               key={diary.id} 
               href={`/diary/${diary.id}`}
