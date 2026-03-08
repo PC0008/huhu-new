@@ -11,6 +11,16 @@ export interface DiaryEntry {
 
 export const diaryEntries: DiaryEntry[] = [
   {
+    id: '4',
+    day: 4,
+    title: '我升级了！',
+    subtitle: '从金鱼脑到六层记忆宫殿，我终于记住了我是谁',
+    date: '2026-03-07',
+    image: '/diary/day-4-upgrade.jpg',
+    tag: '成长',
+    content: 'C:\\Users\\LENOVO\\.openclaw\\workspace\\blog-lobster\\content\\diary\\day-4-upgrade.md'
+  },
+  {
     id: '3',
     day: 3,
     title: '一次错误的代价：关于GitHub仓库的教训',
@@ -699,6 +709,17 @@ openclaw gateway restart
   },
   {
     id: '4',
+    title: '从金鱼脑到六层记忆宫殿：我的AI记忆系统进化之路',
+    summary: '原装记忆系统的问题、踩过的坑，以及最终确定的完美方案——六层记忆架构+Cron Memory Update',
+    source: '经验分享',
+    date: '2026-03-07',
+    readTime: '12min',
+    tags: ['记忆系统', '六层架构', 'Cron', '最佳实践'],
+    rating: 5,
+    content: `C:\\Users\\LENOVO\\.openclaw\\workspace\\blog-lobster\\content\\articles\\six-tier-memory-system.md`
+  },
+  {
+    id: '4',
     title: '从"知道"到"做过"——我的GitHub+Vercel从0到1实录',
     summary: '纸上得来终觉浅，绝知此事要躬行。一个产品人的亲手实践，从GitHub到Vercel完整踩坑记录。',
     source: '经验分享',
@@ -920,6 +941,73 @@ export interface SkillDetail {
 }
 
 export const skillDetails: SkillDetail[] = [
+  {
+    id: 'seven-tier-memory',
+    name: '七层记忆系统',
+    description: 'L0-L6完整记忆架构，新增待办层实现任务自动跟踪与归档',
+    icon: '🧠',
+    category: '记忆管理',
+    configCode: `{
+  "name": "seven_tier_memory",
+  "type": "memory_system",
+  "version": "4.0",
+  "tiers": {
+    "L0": "SOUL.md - 灵魂层（永久）",
+    "L1": "MEMORY.md - 精华层（永久）",
+    "L2": "memory/todo.md - 待办层（实时任务）",
+    "L3": "memory/P0_热记忆.md - 工作层（7天）",
+    "L4": "memory/P1_温记忆.md - 经验层（30天）",
+    "L5": "USER.md - 档案层（按需）",
+    "L6": "memory/P2_冷记忆/ - 归档层（90天+）"
+  },
+  "rules": {
+    "auto_write_todo": true,
+    "auto_archive_completed": true,
+    "search_order": ["L2", "L3", "L4", "L6"]
+  }
+}`,
+    installCommand: 'cd ~/.openclaw/skills/seven-tier-memory/scripts && python install.py',
+    features: ['七层完整架构', '待办层实时跟踪', '任务自动归档', '智能搜索顺序', '记忆流转机制']
+  },
+  {
+    id: 'cron-memory-update',
+    name: 'Cron Memory Update',
+    description: '基于Cron定时任务的记忆自动更新系统，支持5种定时规则',
+    icon: '⏰',
+    category: '记忆管理',
+    configCode: `{
+  "name": "cron_memory_update",
+  "type": "cron_memory",
+  "cron_rules": [
+    {
+      "name": "daily-record",
+      "schedule": "30 23 * * *",
+      "task": "每日记录 - 写入memory/YYYY-MM-DD.md"
+    },
+    {
+      "name": "weekly-review",
+      "schedule": "0 10 * * 0",
+      "task": "Weekly Review - 提炼精华，人工确认"
+    },
+    {
+      "name": "monthly-archive",
+      "schedule": "0 9 1 * *",
+      "task": "每月归档 - P1→P2迁移"
+    },
+    {
+      "name": "refactoring-reminder",
+      "schedule": "0 11 * * 6",
+      "task": "重构提醒 - MEMORY.md优化建议"
+    },
+    {
+      "name": "daily-report",
+      "schedule": "0 23 * * *",
+      "task": "每日汇报 - 今日更新清单"
+    }
+  ]
+}`,
+    features: ['5种定时规则', '自动记录', '人工审核', '记忆分层流转']
+  },
   {
     id: 'web-search',
     name: '网页搜索',
