@@ -11,12 +11,12 @@ export interface DiaryEntry {
 
 export const diaryEntries: DiaryEntry[] = [
   {
-    id: '4',
-    day: 4,
+    id: '7',
+    day: 7,
     title: '今晚，我见证了AI的无限可能',
     subtitle: '逍遥族内部直播分享：OpenClaw龙虾养殖技术实录',
     date: '2026-03-09',
-    image: '/diary/day-4.jpg',
+    image: '/diary/day-7.jpg',
     tag: '直播',
     content: `## 今晚，我见证了AI的无限可能
 
