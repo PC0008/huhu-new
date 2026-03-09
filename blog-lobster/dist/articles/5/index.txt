@@ -1,0 +1,182 @@
+2:I[3064,["972","static/chunks/972-ceea3baa05359a1c.js","422","static/chunks/app/articles/%5Bid%5D/page-ad548b94db2065b7.js"],"default"]
+4:I[4707,[],""]
+6:I[6423,[],""]
+7:I[7130,["972","static/chunks/972-ceea3baa05359a1c.js","185","static/chunks/app/layout-ddae3d4fa7c2736d.js"],"default"]
+3:T1bc1,## 一、今天我决定不再只看文档了
+
+说实话，作为一个做过产品、写过代码的人，我一直觉得自己是"懂"的。
+
+懂GitHub是代码仓库，懂Vercel是前端部署平台，懂Git是版本控制工具。我看过不少文档，也收藏过很多教程，甚至能跟工程师聊CI/CD、聊自动化部署。我一直以为，我只是"没机会实操"而已。
+
+直到今天——我决定亲手做一次，从零开始。
+
+镇山虎（我的AI助理）在旁边协助，但每一步我都要求自己亲手操作。我想看看，到底是"我懂了"，还是"我只是以为我懂了"。
+
+---
+
+## 二、GitHub：懂概念和会操作，差着十万八千里
+
+### 2.1 创建仓库，我卡住了
+
+我打开GitHub，点击"New repository"，心想这不是很简单吗？
+
+然后我看到了这些选项：
+- Public vs Private
+- Add a README file
+- Add .gitignore
+- Choose a license
+
+我突然意识到一个问题：**我之前都是Fork别人的项目，从来没有从零创建过。** 我不知道一个"干净"的仓库应该长什么样，不知道README应该什么时候加，不知道.gitignore应该怎么选。
+
+最后我选了个Next.js的模板，因为我今天要部署的是一个React项目。但那一刻，我有点尴尬——原来我以为的简单，只是因为我一直在用现成的。
+
+### 2.2 配置Git本地环境，SSH key把我搞懵了
+
+接下来是配置本地Git。这个我懂，不就是`git config`嘛。
+
+```bash
+git config --global user.name "你的名字"
+git config --global user.email "你的邮箱"
+```
+
+但是当我执行`git push`时，报错：
+
+```
+remote: Support for password authentication was removed...
+```
+
+哦，对，GitHub早就不支持密码验证了，要用SSH key。
+
+然后我又去搜怎么生成SSH key、怎么添加到GitHub账户、怎么测试连接... 这个过程花了将近**20分钟**。
+
+**20分钟啊！** 看文档的时候，这部分就是一句话："配置好SSH key后即可推送。" 但没人告诉我，生成key的时候要一路回车，添加的时候要复制那个`.pub`文件的内容，不是私钥。
+
+### 2.3 git push，我终于成功了
+
+当我最终看到这句话时，我竟然有点激动：
+
+```
+Enumerating objects: 45, done.
+Writing objects: 100% (45/45), 12.34 MiB | 2.15 MiB/s, done.
+To github.com:yourname/your-repo.git
+ * [new branch]      main -> main
+```
+
+就是那种——**"卧槽，真的发出去了"**的感觉。
+
+我看文档看了10遍，不如亲手做1遍。纸上得来终觉浅，古人诚不我欺。
+
+---
+
+## 三、Vercel部署：理论和实操之间，隔着一个Output Directory
+
+### 3.1 连接GitHub，我以为是自动的
+
+GitHub搞定后，我打开Vercel，用GitHub账号登录，选择项目，点击Import。
+
+我想，这不就是一键部署吗？应该很快就能看到一个网址了吧？
+
+然后我看到了**红色的错误提示**。
+
+### 3.2 那个让我困惑的Output Directory
+
+错误信息大概是说找不到构建输出。我去看了Vercel的Build Settings，看到了这些选项：
+- Framework Preset（我选了Next.js）
+- Build Command（默认是`next build`）
+- Output Directory（这里显示的是默认的）
+
+我问镇山虎："这是什么意思？"
+
+镇山虎说："你的项目构建后，静态文件输出到哪里？"
+
+我说："dist啊，构建完不都在dist文件夹里吗？"
+
+他说："那你得告诉Vercel，让它去dist里找。现在它默认去找`.next`目录，但你的配置文件里输出目录是dist。"
+
+我愣了一下，然后在Output Directory那里，把默认的`.next`改成了`dist`。
+
+重新Deploy。
+
+**绿了。 部署成功。**
+
+那一刻，我突然明白了一个道理：我知道"构建"是什么意思，但我不知道"构建后文件在哪"这个问题需要我手动配置。
+
+看教程的时候，人家直接说"部署成功"，没人特意提这个Output Directory。因为每个人的项目配置不一样，这属于"你应该知道的细节"——但问题是，我不知道，因为我没做过。
+
+### 3.3 Webhook自动部署，我终于亲眼看到了
+
+Vercel最爽的地方是什么？是**自动化部署**。
+
+我故意在本地改了代码，commit，push到GitHub。然后打开Vercel的控制台，看着那个状态从"Ready"变成"In Progress"，再到"Ready"。
+
+整个过程也就1分钟。
+
+以前我"知道"Webhook的存在，知道GitHub可以用Webhooks触发第三方服务。但当你亲眼看到自己的代码提交后，Vercel自动开始构建，那种感觉完全不一样。
+
+它不是"知识"了，它是"体验"。
+
+---
+
+## 四、Vercel的真实缺点：对中国用户确实不友好
+
+部署成功了，但我得说几句实话。
+
+### 4.1 域名只能在平台购买
+
+我想绑定自己的域名，结果发现Vercel不支持外部域名直接解析（或者说过程很麻烦）。它希望你直接在它这里买域名。
+
+但问题是，它的域名价格不便宜，而且...
+
+### 4.2 需要Visa信用卡
+
+买域名需要绑卡。我试了国内的几张卡，都不行。最后发现需要Visa或Mastercard。
+
+这不就是变相地把中国用户挡在门外吗？
+
+我知道有办法解决（比如用PayPal、或者换其他支付方式），但这个体验真的很差。对于想"快速上线"的人来说，这一步就能把热情浇灭一半。
+
+### 4.3 访问速度一言难尽
+
+部署完的站点，国内访问有时候快，有时候慢。毕竟是海外服务器，这个可以理解，但确实是个问题。
+
+所以我的结论是：**Vercel确实好用，但对国内用户来说，它并不是最佳选择。** 如果你面向的是国内用户，可能还是得考虑国内的云服务，或者忍受这些不便。
+
+---
+
+## 五、写在最后：从"知道"到"做过"，是一次跨越
+
+今天这整个过程，从下午折腾到晚上，说实话比我想象的累。
+
+但也很爽。
+
+我终于明白了一个道理：
+
+> **"知道"和"做过"之间，隔着的是细节，是坑，是那些文档里不会写的、只有踩过才会明白的东西。**
+
+我可以看100篇教程，收藏50个视频，但如果不动手，我永远不会知道：
+- SSH key原来要配两遍（本地生成+GitHub添加）
+- Output Directory原来需要手动填
+- Vercel的域名和支付方式对国内用户这么不友好
+
+这些不是"知识"，是"经验"。而经验，只能通过实践获得。
+
+所以，如果你也像我一样，有理论基础但缺乏实操，我真心建议你也动手试试。
+
+选一个周末，放下教程，从零开始做一个完整的项目。推一次代码，部署一次网站，踩几个坑。
+
+你会发现，**你比你以为的更不懂，但完成后，你比你以为的更厉害。**
+
+---
+
+**2026年3月5日，我的第一个从零开始的GitHub+Vercel项目上线了。**
+
+它很小，但我从中得到的，比看十篇文档都多。
+
+——星爷
+
+---
+
+📌 **P.S.** 如果你也想尝试，记住这个流程：本地构建测试 → 启动预览服务器 → 推送到GitHub → Vercel自动部署。每一步都亲手做一次，你会发现新世界。5:["id","5","d"]
+0:["lZcMGSVMh0QVu4vBwLXDg",[[["",{"children":["articles",{"children":[["id","5","d"],{"children":["__PAGE__?{\"id\":\"5\"}",{}]}]}]},"$undefined","$undefined",true],["",{"children":["articles",{"children":[["id","5","d"],{"children":["__PAGE__",{},[["$L1",["$","$L2",null,{"article":{"id":"5","title":"从\"知道\"到\"做过\"——我的GitHub+Vercel从0到1实录","summary":"纸上得来终觉浅，绝知此事要躬行。一个产品人的亲手实践，从GitHub到Vercel完整踩坑记录。","source":"经验分享","date":"2026-03-06","readTime":"15min","tags":["GitHub","Vercel","部署","踩坑","实战经验"],"rating":5,"content":"$3"}}],null],null],null]},[null,["$","$L4",null,{"parallelRouterKey":"children","segmentPath":["children","articles","children","$5","children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L6",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","notFoundStyles":"$undefined"}]],null]},[null,["$","$L4",null,{"parallelRouterKey":"children","segmentPath":["children","articles","children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L6",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","notFoundStyles":"$undefined"}]],null]},[[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/3732fb9371bbd748.css","precedence":"next","crossOrigin":"$undefined"}]],["$","html",null,{"lang":"zh-CN","children":["$","body",null,{"className":"antialiased min-h-screen flex flex-col bg-cream","children":[["$","$L7",null,{}],["$","main",null,{"className":"flex-1","children":["$","$L4",null,{"parallelRouterKey":"children","segmentPath":["children"],"error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L6",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":"404"}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],"notFoundStyles":[]}]}],["$","footer",null,{"className":"bg-cream-light mt-16 py-8","children":["$","div",null,{"className":"max-w-6xl mx-auto px-4 sm:px-6 lg:px-8","children":["$","div",null,{"className":"flex flex-col items-center gap-4","children":[["$","div",null,{"className":"flex items-center gap-2","children":[["$","span",null,{"className":"text-2xl","children":"🐯"}],["$","span",null,{"className":"text-text-secondary","children":"镇山虎养成日记"}]]}],["$","div",null,{"className":"flex items-center gap-6 text-sm text-text-secondary","children":[["$","a",null,{"href":"#","className":"hover:text-coral transition-colors","children":"关于"}],["$","a",null,{"href":"#","className":"hover:text-coral transition-colors","children":"联系"}],["$","a",null,{"href":"#","className":"hover:text-coral transition-colors","children":"GitHub"}]]}],["$","p",null,{"className":"text-xs text-text-secondary/60","children":"© 2024 镇山虎养成日记 · 记录AI协作成长之路"}]]}]}]}]]}]}]],null],null],["$L8",null]]]]
+8:[["$","meta","0",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","1",{"charSet":"utf-8"}],["$","title","2",{"children":"镇山虎养成日记 - AI协作成长记录"}],["$","meta","3",{"name":"description","content":"记录镇山虎和星爷的AI协作成长之路，从0到1搭建AI助理团队的真实记录。"}],["$","link","4",{"rel":"icon","href":"/favicon.ico","type":"image/x-icon","sizes":"16x16"}]]
+1:null
